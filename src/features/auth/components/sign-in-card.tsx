@@ -1,8 +1,7 @@
+'use client';
+
 import { FC, FormEvent, useState } from 'react';
 import { useAuthActions } from '@convex-dev/auth/react';
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
-import { TriangleAlert } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +13,10 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { TriangleAlert } from 'lucide-react';
 
 import { SignInFlow } from '../types';
 
