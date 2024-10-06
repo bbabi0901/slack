@@ -1,4 +1,7 @@
 import { FC, useState } from 'react';
+import { useAuthActions } from '@convex-dev/auth/react';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,8 +13,6 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { FaGithub } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 
 import { SignInFlow } from '../types';
 
@@ -20,8 +21,13 @@ interface SignInCardProps {
 }
 
 const SignInCard: FC<SignInCardProps> = ({ setState }) => {
+  const { signIn } = useAuthActions();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleProviderSignIn = (value: 'google' | 'github') => {
+    signIn(value);
+  };
 
   return (
     <Card className='h-full w-full p-8'>
@@ -55,7 +61,7 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
         <div className='flex flex-col gap-y-2.5'>
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => handleProviderSignIn('google')}
             size='lg'
             variant='outline'
             className='w-full relative'
@@ -65,7 +71,7 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
           </Button>
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => handleProviderSignIn('github')}
             size='lg'
             variant='outline'
             className='w-full relative'

@@ -53,7 +53,7 @@ const SignUpCard: FC<SignUpCardProps> = ({ setState }) => {
             type='password'
             required
           />
-          <Button type='submit' className='w-full' size='lg' disabled={false}>
+          <Button type='submit' className='w-full ' size='lg' disabled={false}>
             Continue
           </Button>
         </form>
