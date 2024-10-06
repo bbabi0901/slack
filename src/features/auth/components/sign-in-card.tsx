@@ -24,8 +24,10 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
   const { signIn } = useAuthActions();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [pending, setPending] = useState(false);
 
   const handleProviderSignIn = (value: 'google' | 'github') => {
+    setPending(true);
     signIn(value);
   };
 
@@ -53,14 +55,14 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
             type='password'
             required
           />
-          <Button type='submit' className='w-full' size='lg' disabled={false}>
+          <Button type='submit' className='w-full' size='lg' disabled={pending}>
             Continue
           </Button>
         </form>
         <Separator />
         <div className='flex flex-col gap-y-2.5'>
           <Button
-            disabled={false}
+            disabled={pending}
             onClick={() => handleProviderSignIn('google')}
             size='lg'
             variant='outline'
@@ -70,7 +72,7 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
             Continue with google
           </Button>
           <Button
-            disabled={false}
+            disabled={pending}
             onClick={() => handleProviderSignIn('github')}
             size='lg'
             variant='outline'
