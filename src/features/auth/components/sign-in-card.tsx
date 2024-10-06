@@ -1,7 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, FormEvent, useState } from 'react';
 import { useAuthActions } from '@convex-dev/auth/react';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { TriangleAlert } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -25,10 +26,22 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState('');
+
+  const handlePasswordSignIn = (e: FormEvent) => {
+    e.preventDefault();
+    setPending(true);
+    // * The flow is 'signIn' not 'signUp'.
+    signIn('password', { email, password, flow: 'signIn ' })
+      .catch(() => {
+        setError('Invalid email or password');
+      })
+      .finally(() => setPending(false));
+  };
 
   const handleProviderSignIn = (value: 'google' | 'github') => {
     setPending(true);
-    signIn(value);
+    signIn(value).finally(() => setPending(false));
   };
 
   return (
@@ -39,6 +52,12 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
           Use your email or another service to continue
         </CardDescription>
       </CardHeader>
+      {!!error && (
+        <div className='bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6'>
+          <TriangleAlert className='size-4' />
+          <p>{error}</p>
+        </div>
+      )}
       <CardContent className='space-y-5 px-0 pb-0'>
         <form className='space-y-2.5'>
           <Input
@@ -55,7 +74,13 @@ const SignInCard: FC<SignInCardProps> = ({ setState }) => {
             type='password'
             required
           />
-          <Button type='submit' className='w-full' size='lg' disabled={pending}>
+          <Button
+            type='submit'
+            className='w-full'
+            size='lg'
+            disabled={pending}
+            onClick={handlePasswordSignIn}
+          >
             Continue
           </Button>
         </form>
